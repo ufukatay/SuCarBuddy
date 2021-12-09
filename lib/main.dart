@@ -5,6 +5,15 @@ import 'package:projedeneme/routes/login.dart';
 import 'package:projedeneme/routes/WalkThrough.dart';
 import 'package:projedeneme/routes/condition.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:projedeneme/services/auth.dart';
+
+
 
 
 
@@ -55,10 +64,16 @@ class _MyFirebaseAppState extends State<MyFirebaseApp> {
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return StreamProvider<User?>.value(
+      value: AuthService().user,
+      initialData: null,
+      child: MaterialApp(
+        navigatorObservers: <NavigatorObserver>[observer],
         debugShowCheckedModeBanner: false,
         //home: LoginSign(),
         initialRoute: '/Condition' ,
@@ -68,10 +83,12 @@ class MyApp extends StatelessWidget {
           '/WalkThrough': (context) => WalkThrough(),
           '/login': (context) => Login(),
           '/signup': (context) => SignUp(),
-        }
+        },
+      ),
     );
   }
 }
+
 
 
 
