@@ -188,7 +188,8 @@ class _SignUpState extends State<SignUp> {
                           validator: (value) {
                             if (value == null) {
                               return 'Password field cannot be empty';
-                            } else {
+                            }
+                            else {
                               String trimmedValue = value.trim();
                               if (trimmedValue.isEmpty) {
                                 return 'Password field cannot be empty';
@@ -229,8 +230,9 @@ class _SignUpState extends State<SignUp> {
 
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(
-                                  SnackBar(content: Text('Logging in')));
+                                  SnackBar(content: Text('Registering in')));
                             }
+                            Navigator.pushNamed(context, '/login');
                           },
 
                           child: Padding(
