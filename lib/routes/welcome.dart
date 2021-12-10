@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:projedeneme/utils/styles.dart';
 import 'package:projedeneme/utils/colors.dart';
 import 'package:projedeneme/utils/dimension.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
 
 
 
@@ -108,7 +110,11 @@ class _WelcomeState extends State<Welcome> {
             ElevatedButton(onPressed: buttonPressed, child: Text('Facebook')
             ),
             SizedBox(height: 15,),
-            ElevatedButton.icon(onPressed: buttonPressed, icon: Icon(Icons.mail), label: Text('Gmail')
+            ElevatedButton.icon(onPressed: (){
+
+              GoogleSignIn().signIn();
+            }
+                , icon: Icon(Icons.mail), label: Text('Gmail')
             ),
           ],
         ),

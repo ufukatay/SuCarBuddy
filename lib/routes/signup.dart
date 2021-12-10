@@ -4,10 +4,8 @@ import 'package:projedeneme/utils/dimension.dart';
 import 'package:projedeneme/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:projedeneme/services/auth.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projedeneme/routes/feedView.dart';
 

@@ -60,7 +60,12 @@ class _MyFirebaseAppState extends State<MyFirebaseApp> {
   }
 }
 
+
 class MyApp extends StatelessWidget {
+
+
+
+
   const MyApp({Key? key}) : super(key: key);
   static FirebaseAnalytics analytics = FirebaseAnalytics();
   static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
@@ -85,7 +90,9 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+
 }
+
 
 
 
