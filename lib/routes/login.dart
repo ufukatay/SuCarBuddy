@@ -26,6 +26,9 @@ class _LoginState extends State<Login> {
   AuthService auth = AuthService();
 
 
+
+
+
   void setmessage(String msg) {
     setState(() {
       _message = msg;
@@ -143,13 +146,15 @@ class _LoginState extends State<Login> {
                           validator: (value) {
                             if (value == null) {
                               return 'Password field cannot be empty';
-                            } else {
+                            }
+                            else {
                               String trimmedValue = value.trim();
                               if (trimmedValue.isEmpty) {
                                 return 'Password field cannot be empty';
                               }
                               if (trimmedValue.length < 8) {
                                 return 'Password must be at least 8 characters long';
+
                               }
                             }
                             return null;

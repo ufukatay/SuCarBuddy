@@ -4,7 +4,11 @@ import 'package:projedeneme/utils/colors.dart';
 import 'package:projedeneme/utils/dimension.dart';
 
 
+
+
 class Welcome extends StatefulWidget {
+
+
   @override
   _WelcomeState createState() => _WelcomeState();
 }
