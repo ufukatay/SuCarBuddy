@@ -230,7 +230,6 @@ class _SignUpState extends State<SignUp> {
                                   .showSnackBar(
                                   SnackBar(content: Text('Registering in')));
                             }
-                            Navigator.pushNamed(context, '/login');
                           },
 
                           child: Padding(
@@ -265,7 +264,7 @@ class _SignUpState extends State<SignUp> {
       );
     }
     else {
-  return FeedView();
-  }
+      return FeedView();
+    }
   }
 }

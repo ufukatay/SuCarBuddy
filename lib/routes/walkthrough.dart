@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:projedeneme/routes/welcome.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+
 
 class WalkThrough extends StatefulWidget {
   @override
@@ -8,6 +11,8 @@ class WalkThrough extends StatefulWidget {
 }
 
 class _WalkThroughState extends State<WalkThrough> {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer = FirebaseAnalyticsObserver(analytics: analytics);
   @override
   Widget build(BuildContext context) => SafeArea(
     child: IntroductionScreen(
@@ -57,7 +62,7 @@ class _WalkThroughState extends State<WalkThrough> {
   );
 
   void goToHome(context) => Navigator.of(context).pushReplacement(
-    MaterialPageRoute(builder: (_) => Welcome()),
+    MaterialPageRoute(builder: (_) => Welcome(analytics: analytics, observer: observer)),
   );
 
   Widget buildImage(String path) =>
@@ -81,4 +86,3 @@ class _WalkThroughState extends State<WalkThrough> {
   );
 
 }
-
