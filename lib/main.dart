@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:projedeneme/page/explore_page.dart';
+import 'package:projedeneme/page/notification_page.dart';
 import 'package:projedeneme/routes/welcome.dart';
 import 'package:projedeneme/routes/signup.dart';
 import 'package:projedeneme/routes/login.dart';
@@ -15,6 +17,8 @@ import 'package:projedeneme/services/auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:projedeneme/page/profile_page.dart';
 import 'package:projedeneme/page/edit_profile_page.dart';
+import 'package:projedeneme/page/explore_page2.dart';
+
 
 
 
@@ -95,10 +99,12 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => SignUp(),
           '/profile_page': (context) => ProfilePage(),
           '/edit_profile_page': (context) => EditProfilePage(),
+          '/notification_page': (context) => NotificationPage(),
+          '/explore_page': (context) => ExplorePage(),
+          '/explore_page2': (context) => ExplorePage2(),
         },
       ),
     );
   }
 
 }
-

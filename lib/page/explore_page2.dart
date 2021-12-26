@@ -9,24 +9,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 final usersRef = FirebaseFirestore.instance.collection('users');
 
-class FeedView extends StatefulWidget {
+class ExplorePage2 extends StatefulWidget {
 
   @override
-  _FeedViewState createState() => _FeedViewState();
+  _ExplorePageState2 createState() => _ExplorePageState2();
 }
 
 
-class _FeedViewState extends State<FeedView>  {
+class _ExplorePageState2 extends State<ExplorePage2>  {
   List<Post> myPosts = [
-    Post(text: 'Sabanci to Kadiköy \nCreated by Arda', date: '5.01.2022', likeCount: 10, commentCount: 5),
     Post(text: 'CaddeBostan to Sabanci\nCreated by Ufuk', date: '26.12.2021', likeCount: 20, commentCount: 10),
-    Post(text: 'sabanci to halkalı\nCreated by Irmak', date: '30.12.2021', likeCount: 30, commentCount: 15),
-    Post(text: 'Sabanci to Izmir\nCreated by Sergen', date: '5.01.2022', likeCount: 10, commentCount: 5),
-    Post(text: 'Kocaeli to Sabanci\nCreated by Ahmet', date: '26.12.2021', likeCount: 20, commentCount: 10),
-    Post(text: 'sabanci to Adana\nCreated by Mehmet', date: '30.12.2021', likeCount: 30, commentCount: 15),
-    Post(text: 'Sabanci to Ankara\nCreated by Ezgi', date: '5.01.2022', likeCount: 10, commentCount: 5),
-    Post(text: 'Maltepe to Sabanci\nCreated by Ayşe', date: '26.12.2021', likeCount: 20, commentCount: 10),
-    Post(text: 'Ardahan to Sabanci\nCreated by Fatma', date: '30.12.2021', likeCount: 30, commentCount: 15),
+
 
 
   ];
@@ -51,48 +44,20 @@ class _FeedViewState extends State<FeedView>  {
 
   @override
   Widget build(BuildContext context) {
-    db.addUser('name', 'surname', 'mail', 'token');
-    db.addUserAutoID('nameAuto', 'surnameAuto', 'mail@auto', 'token');
+    //db.addUser('name', 'surname', 'mail', 'token');
+    //db.addUserAutoID('nameAuto', 'surnameAuto', 'mail@auto', 'token');
 
 
     return Scaffold(
       resizeToAvoidBottomInset: false, // set it to false
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            auth.signOutFromGoogle();
-          },
-          icon: Icon(Icons.logout),
-        ),
-        title: Text("SEARCH BAR", style: kDefaultLabel,),
+        title: Text("Explore-Page", style: kDefaultLabel,),
         backgroundColor: AppColors.primaryColor,
         foregroundColor: Colors.yellow,
         centerTitle: true,
         elevation: 0.0,
-        actions: [
-          Theme(
-            data: Theme.of(context).copyWith(
-              dividerColor: Colors.white,
-              iconTheme: IconThemeData(color: Colors.white),
-              textTheme: TextTheme().apply(bodyColor: Colors.white),
-            ),
-            child: PopupMenuButton<int>(
-              color: Colors.indigo,
-              onSelected: (item) => onSelected(context, item),
-              itemBuilder: (context) => [
-                PopupMenuItem<int>(
-                  value: 0,
-                  child: Text('Profile-Page'),
-                ),
-                PopupMenuItem<int>(
-                  value: 1,
-                  child: Text('Notification Page'),
-                ),
-              ],
-            ),
-          ),
-        ],
+
       ),
       body:PageView(
         children: [
@@ -110,7 +75,6 @@ class _FeedViewState extends State<FeedView>  {
                           )),
                       IconButton(
                           onPressed: () {
-                            Navigator.pushNamed(context, '/explore_page');
                             print("Button pressed");
                           },
                           icon: Icon(
@@ -149,18 +113,6 @@ class _FeedViewState extends State<FeedView>  {
       ),
 
     );
-
-  }
-}
-void onSelected(BuildContext context, int item) {
-  switch (item) {
-    case 0:
-      Navigator.pushNamed(context, '/profile_page');
-      break;
-    case 1:
-      Navigator.pushNamed(context, '/notification_page');
-      break;
-
 
   }
 }
