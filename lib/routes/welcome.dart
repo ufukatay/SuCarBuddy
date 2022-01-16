@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:projedeneme/utils/styles.dart';
@@ -10,6 +11,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:projedeneme/services/analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:projedeneme/model/user.dart' as deneme;
+
+final GoogleSignIn googleSignIn = GoogleSignIn();
+deneme.User? currentUser;
 
 
 
@@ -28,6 +34,11 @@ class Welcome extends StatefulWidget {
 
 class _WelcomeState extends State<Welcome> {
   AuthService auth = AuthService();
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User?>(context);

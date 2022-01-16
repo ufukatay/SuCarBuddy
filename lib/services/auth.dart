@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'db.dart';
 
 
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  DBService db = DBService();
 
   User? _userFromFirebase(User? user) {
     return user ?? null;
@@ -12,6 +15,11 @@ class AuthService {
 
   Stream<User?> get user {
     return _auth.authStateChanges().map(_userFromFirebase);
+  }
+
+  Future deleteUser() async {
+    User user = await FirebaseAuth.instance.currentUser!;
+    user.delete();
   }
 
   Future signInAnon() async {
@@ -22,6 +30,40 @@ class AuthService {
     } catch (e) {
       print(e.toString());
       return null;
+    }
+  }
+
+  Future updatePass(String newPass, String mail, String oldPass) async
+  {
+    print("mail is: "+mail + "\noldpass is: " + oldPass + "\nnewpass is: " + newPass);
+
+    AuthCredential credential = EmailAuthProvider.credential(email: mail, password: oldPass);
+
+    try{
+      var credRes = await FirebaseAuth.instance.currentUser!.reauthenticateWithCredential(credential);
+
+      await _auth.currentUser!.updatePassword(newPass);
+      print("UPDATE PASS RES: "+ "1 SUCCESS");
+      return ("1");
+    }
+    on FirebaseAuthException catch (e){
+      print(e.code.toString());
+      if(e.code.toString() == 'user-not-found' || e.code.toString() == 'wrong-password')
+      {
+        return ("3");
+      }
+      else if (e.code.toString() == 'weak-password' || e.code.toString() == 'requires-recent-login') {
+        //signupWithMailAndPass(mail, pass);
+        return ("3");
+      } else if (e.code.toString() == 'too-many-requests') {
+        return ("4");
+      }
+      else {
+        return("3");
+      }
+    } catch (e) {
+      print(e.toString());
+      return ("4");
     }
   }
 
@@ -68,7 +110,12 @@ class AuthService {
     }
   }
 
-  Future<UserCredential> signInWithGoogle() async {
+  Future<DocumentSnapshot> fetchCurrentUser(String uuid) async {
+    return await FirebaseFirestore.instance.collection('users').doc(uuid).get();
+  }
+
+
+  Future signInWithGoogle() async {
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -82,7 +129,20 @@ class AuthService {
     );
 
     // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+    print(credential.toString());
+    UserCredential result = await FirebaseAuth.instance.signInWithCredential(credential);
+    bool isUserNew = result.additionalUserInfo!.isNewUser;
+
+    User? user = result.user;
+    print(user.toString());
+
+    if(user!.displayName != null && isUserNew)
+    {
+      db.addUserAutoID(user.displayName!, user.email!, user.uid);
+    }
+
+
+    return _userFromFirebase(user);
   }
 
   Future<void> signOutFromGoogle() async{

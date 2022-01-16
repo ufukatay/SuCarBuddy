@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:projedeneme/services/db.dart';
 import 'package:projedeneme/utils/colors.dart';
 import 'package:projedeneme/utils/dimension.dart';
 import 'package:projedeneme/utils/styles.dart';
@@ -10,7 +12,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:projedeneme/routes/feedView.dart';
 
 
-
 class SignUp extends StatefulWidget {
   @override
   _SignUpState createState() => _SignUpState();
@@ -18,6 +19,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   @override
+  DBService db = DBService();
   final _formKey = GlobalKey<FormState>();
   String _message = '';
   String name = "";
@@ -32,13 +34,13 @@ class _SignUpState extends State<SignUp> {
     setState(() {
       _message = msg;
     });
+
   }
 
   @override
   void initState() {
     super.initState();
   }
-
 
 
   void buttonClicked() {
@@ -86,6 +88,11 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           keyboardType: TextInputType.text,
+                          onSaved: (value) {
+                            if (value != null) {
+                              name = value;
+                            }
+                          }
                         ),
                       ),
                     ],
@@ -110,6 +117,11 @@ class _SignUpState extends State<SignUp> {
                             ),
                           ),
                           keyboardType: TextInputType.text,
+                          onSaved: (value) {
+                            if (value != null) {
+                              surname = value;
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -217,12 +229,11 @@ class _SignUpState extends State<SignUp> {
                       Expanded(
                         flex: 1,
                         child: OutlinedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (_formKey.currentState!.validate()) {
                               _formKey.currentState!.save();
 
                               //showAlertDialog("Action", 'Button clicked');
-
 
                               auth.signupWithMailAndPass(mail, pass);
 
@@ -264,6 +275,7 @@ class _SignUpState extends State<SignUp> {
       );
     }
     else {
+      db.addUser(name, surname, mail,user.uid);
       return FeedView();
     }
   }

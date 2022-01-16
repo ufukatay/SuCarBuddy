@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projedeneme/page/explore_page.dart';
-import 'package:projedeneme/page/notification_page.dart';
+import 'package:projedeneme/routes/edit_profile.dart';
 import 'package:projedeneme/routes/welcome.dart';
 import 'package:projedeneme/routes/signup.dart';
 import 'package:projedeneme/routes/login.dart';
@@ -15,9 +15,7 @@ import 'package:firebase_analytics/observer.dart';
 import 'package:provider/provider.dart';
 import 'package:projedeneme/services/auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:projedeneme/page/profile_page.dart';
-import 'package:projedeneme/page/edit_profile_page.dart';
-import 'package:projedeneme/page/explore_page2.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 
@@ -28,8 +26,12 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await Firebase.initializeApp();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool? isLoggedInUser = prefs.getBool('userLogin');
     // The following lines are the same as previously explained in "Handling uncaught errors"
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+
 
     runApp(MyFirebaseApp());
   }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
@@ -97,11 +99,7 @@ class MyApp extends StatelessWidget {
           '/': (context) => Welcome(analytics: analytics, observer: observer),
           '/login': (context) => Login(),
           '/signup': (context) => SignUp(),
-          '/profile_page': (context) => ProfilePage(),
-          '/edit_profile_page': (context) => EditProfilePage(),
-          '/notification_page': (context) => NotificationPage(),
-          '/explore_page': (context) => ExplorePage(),
-          '/explore_page2': (context) => ExplorePage2(),
+          '/edit_profile': (context) => EditProfile(),
         },
       ),
     );
